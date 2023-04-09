@@ -9,3 +9,5 @@ _The OSWE certification exam simulates a live network in a private VPN, which co
 
 ### Local Labs Setup
 - [ATutor & DotNetNuke Dockerized Labs - Aziz Saadaoui](https://github.com/svdwi/OSWE-Labs-Poc)
+- [ERPNext Linux Setup - CodeWithKarani](https://codewithkarani.com/2021/07/17/how-to-install-erpnext-in-ubuntu-20-04-step-by-step-guide/)
+  - [404 Not Found Error Solution - CodeWithKarani](https://www.youtube.com/watch?v=kR1mk0yBKUE)
