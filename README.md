@@ -10,3 +10,35 @@ _Advanced Web Attacks and exploitation (WEB-300) is an advanced web application 
 
 ### Local Labs Setup
 - [ATutor & DotNetNuke Dockerized Labs - Aziz Saadaoui](https://github.com/svdwi/OSWE-Labs-Poc)
+
+### Personal Progress
+* ATutor LMS
+  * [x] Authentication Bypass via Blind SQL Injection
+  * [x] Authentication Bypass via PHP Type Juggling
+  * [x] Remote Code Execution via File Upload
+* ManageEngine Applications Manager
+  * [ ] PostgreSQL Authentication Bypass and Remote Code Execution
+* Bassmaster NodeJS
+  * [x] Remote Code Execution via Arbitrary JavaScript Injection
+* DotNetNuke
+  * [ ] Remote Code Execution via Deserialization
+* ERPNext
+  * [x] Authentication Bypass via SQL Injection
+  * [ ] Remote Code Execution via Server-Side Template Injection
+* openCRX
+  * [ ] Authentication Bypass via Weak Random Generator
+  * [ ] Remote Code Execution via XML External Entity (XXE)
+* openITCOCKPIT
+  * [ ] Authentication Bypass via DOM-based Cross-Site Scripting (XSS)
+  * [ ] Remote Code Execution via WebSocket Command Injection
+* Concord
+  * [ ] Authentication Bypass via Permissive CORS and CSRF
+  * [ ] Authentication Bypass via Insecure Defaults
+* Guacamole Lite
+  * [ ] Prototype Pollution
+* TUDO
+  * [x] Authentication Bypass via Blind SQL Injection
+  * [x] Authentication Bypass via Weak Random Generator
+  * [x] Privilege Escalation via Cross-Site Scripting (XSS)
+  * [ ] Remote Code Execution via PHP Object Injection
+  
