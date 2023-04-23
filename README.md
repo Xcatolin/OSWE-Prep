@@ -21,7 +21,7 @@ _Advanced Web Attacks and exploitation (WEB-300) is an advanced web application 
 * Bassmaster NodeJS
   * [x] Remote Code Execution via Arbitrary JavaScript Injection
 * DotNetNuke
-  * [ ] Remote Code Execution via Deserialization
+  * [x] Remote Code Execution via Deserialization
 * ERPNext
   * [x] Authentication Bypass via SQL Injection
   * [x] Remote Code Execution via Server-Side Template Injection
