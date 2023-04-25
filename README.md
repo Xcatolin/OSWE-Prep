@@ -26,7 +26,7 @@ _Advanced Web Attacks and exploitation (WEB-300) is an advanced web application 
   * [x] Authentication Bypass via SQL Injection
   * [x] Remote Code Execution via Server-Side Template Injection
 * openCRX
-  * [ ] Authentication Bypass via Weak Random Generator
+  * [x] Authentication Bypass via Weak Random Generator
   * [ ] Remote Code Execution via XML External Entity (XXE)
 * openITCOCKPIT
   * [ ] Authentication Bypass via DOM-based Cross-Site Scripting (XSS)
