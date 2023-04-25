@@ -17,7 +17,7 @@ _Advanced Web Attacks and exploitation (WEB-300) is an advanced web application 
   * [x] Authentication Bypass via PHP Type Juggling
   * [x] Remote Code Execution via File Upload
 * ManageEngine Applications Manager
-  * [ ] PostgreSQL Authentication Bypass and Remote Code Execution
+  * [x] PostgreSQL Authentication Bypass and Remote Code Execution
 * Bassmaster NodeJS
   * [x] Remote Code Execution via Arbitrary JavaScript Injection
 * DotNetNuke
