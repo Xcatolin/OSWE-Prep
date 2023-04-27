@@ -31,8 +31,8 @@ _Advanced Web Attacks and exploitation (WEB-300) is an advanced web application 
   * [ ] Authentication Bypass via DOM-based Cross-Site Scripting (XSS)
   * [ ] Remote Code Execution via WebSocket Command Injection
 * Concord
-  * [ ] Authentication Bypass via Permissive CORS and CSRF
-  * [ ] Authentication Bypass via Insecure Defaults
+  * [x] Authentication Bypass via Permissive CORS and CSRF
+  * [x] Authentication Bypass via Insecure Defaults
 * Guacamole Lite
   * [ ] Prototype Pollution
 * TUDO
