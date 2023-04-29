@@ -41,6 +41,5 @@ _Advanced Web Attacks and exploitation (WEB-300) is an advanced web application 
   * [x] Privilege Escalation via Cross-Site Scripting (XSS)
   * [x] Remote Code Execution via PHP Object Injection
   * [x] Remote Code Execution via File Upload + Filters Bypass
-  * [ ] Remote Code Execution via X
-  * [ ] Remote Code Execution via Y
-  * [ ] Remote Code Execution via Z
+  * [x] Remote Code Execution via PostgreSQL
+  * [ ] Remote Code Execution via Server-Side Template Injection
